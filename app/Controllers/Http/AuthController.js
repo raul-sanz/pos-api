@@ -14,7 +14,7 @@ class AuthController {
       let user = await User.query().where('email', email).fetch()
       return response.json({
         status: 'success',
-        data: token,
+        token,
         user: user
       })
     } catch (error) {
