@@ -11,8 +11,11 @@ const Product = use('App/Models/Product')
 
 class ProductController {
   
-  async index ({ request, response, view }) {
-    const products = await Product.all()
+  async index ({ request, response, view, auth }) {
+
+    const user = await auth.getUser()
+
+    const products = await Product.query().where('company_id', user.company_id).fetch()
 
     return response.json({
       status: 'succes',
@@ -31,8 +34,12 @@ class ProductController {
         stock:request.input('stock'),
         description:request.input('description'),
         type:request.input('type'),
-        max_stock:request.input('max_stock'),
-        min_stock:request.input('min_stock')
+        type:request.input('model'),
+        type:request.input('color'),
+        type:request.input('brand'),
+        max_stock:request.input('max'),
+        min_stock:request.input('min'),
+        company_id:request.input('company_id')
       })
 
       return response.json({

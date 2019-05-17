@@ -17,6 +17,8 @@
 const Route = use('Route')
 
 Route.post('/login', 'AuthController.login')
+Route.post('/register', 'AuthController.register')
 Route.resource('categories', 'CategoryController').middleware(['auth:jwt'])
 Route.resource('products', 'ProductController').middleware(['auth:jwt'])
 Route.resource('users', 'UserController').middleware(['auth:jwt'])
+Route.resource('companies', 'CompanyController').middleware(['auth:jwt'])

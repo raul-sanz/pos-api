@@ -7,6 +7,10 @@ class Product extends Model {
     category(){
         return this.belongsTo('App/Models/Category')
       }
+
+      company () {
+        return this.belongsTo('App/Models/Company')
+      }
 }
 
 module.exports = Product
