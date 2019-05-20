@@ -38,7 +38,7 @@ class AuthController {
 
       const user = await User.create({
         email:request.input('email'),
-        username:request.input('username'),
+        username:`${request.input('first_name')}${request.input('last_name')}`,
         password:request.input('password'),
         role_id:1,
         first_name:request.input('first_name'),
