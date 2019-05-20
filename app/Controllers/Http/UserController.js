@@ -11,8 +11,10 @@ const User = use('App/Models/User')
 
 class UserController {
 
-  async index ({ request, response, view }) {
-    const users = await User.all()
+  async index ({ request, response, view, auth }) {
+    const user = await auth.getUser()
+
+    const users = await User.query().where('company_id', user.company_id).fetch()
 
     return response.json({
       status: 'succes',
@@ -32,7 +34,8 @@ class UserController {
         last_name:request.input('last_name'),
         age:request.input('age'),
         phone:request.input('phone'),
-        address:request.input('address')
+        address:request.input('address'),
+        company_id:request.input('company_id')
       })
 
       return response.json({
