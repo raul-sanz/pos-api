@@ -74,7 +74,6 @@ class UserController {
     
     user.email = request.input('email'),
     user.username = request.input('username'),
-    user.password = request.input('password'),
     user.role_id = request.input('role_id'),
     user.first_name = request.input('first_name'),
     user.last_name = request.input('last_name'),

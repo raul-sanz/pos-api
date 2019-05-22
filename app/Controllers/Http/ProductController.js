@@ -34,9 +34,9 @@ class ProductController {
         stock:request.input('stock'),
         description:request.input('description'),
         type:request.input('type'),
-        type:request.input('model'),
-        type:request.input('color'),
-        type:request.input('brand'),
+        model:request.input('model'),
+        color:request.input('color'),
+        brand:request.input('brand'),
         max_stock:request.input('max'),
         min_stock:request.input('min'),
         company_id:request.input('company_id')
@@ -84,8 +84,11 @@ class ProductController {
     product.stock = request.input('stock'),
     product.description = request.input('description'),
     product.type = request.input('type'),
-    product.max_stock = request.input('max_stock'),
-    product.min_stock = request.input('min_stock')
+    product.model = request.input('model'),
+    product.color = request.input('color'),
+    product.brand = request.input('brand'),
+    product.max_stock = request.input('max'),
+    product.min_stock = request.input('min'),
 
     await product.save()
 
