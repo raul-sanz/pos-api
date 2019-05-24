@@ -12,7 +12,7 @@ class AuthController {
         request.input('password')
       )
 
-      let user = await User.query().where('email', email).fetch()
+      let user = await User.query().where('email', email).with('company').fetch()
       return response.json({
         status: 'success',
         token,

@@ -7,7 +7,7 @@
 /**
  * Resourceful controller for interacting with companies
  */
-
+const fs = require('fs-extra')
 const Company = use('App/Models/Company')
 
 //const User = use('App/Models/User')
@@ -84,6 +84,8 @@ class CompanyController {
     company.address = request.input('address'),
     company.phone = request.input('phone'),
     company.business_name = request.input('business_name')
+    company.iva = request.input('iva')
+    company.logo = request.input('logo')
 
     await company.save()
 
@@ -91,6 +93,53 @@ class CompanyController {
       status: 'success',
       data: company
     })
+  }
+
+  async logo ({ params, request, response, auth }) {
+    /*  const company = await Company.find(params.id)*/
+
+    /* if ( !company ) {
+      return response.status(404).json({status:'error', message:'Categoria no encontrada'}) 
+    } */
+    const user = await auth.getUser()
+    const profilePic = request.file('profile_pic', {
+      types: ['image'],
+      size: '3mb'
+    })
+      // read binary data
+      //let bitmap = fs.readFile(`${profilePic.tmpPath}`);
+      // convert binary data to base64 encoded string
+      
+      
+    let imageAsBase64 = fs.readFileSync(`${profilePic.tmpPath}`, 'base64');
+    
+    const company = await Company.find(user.company_id)
+    
+    company.logo = `data:image/jpeg;base64,${imageAsBase64}`
+
+    await company.save()
+
+
+    return response.status(201).json({
+      status: 'success',
+      data: company
+    }) 
+  }
+
+  async iva ({ params, request, response, auth }) {
+    
+    const user = await auth.getUser()
+    const company = await Company.find(user.company_id)
+    
+    company.iva = request.input('iva')
+
+    await company.save()
+
+
+    return response.status(201).json({
+      status: 'success',
+      data: company
+    }) 
   }
 
 
