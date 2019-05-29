@@ -1,6 +1,8 @@
 'use strict'
 
 const Sale = use('App/Models/Sale')
+const moment = require('moment')
+const Database = use('Database')
 
 class SaleController {
   async index ({ request, response, view, auth }) {
@@ -27,7 +29,8 @@ class SaleController {
         total:request.input('total'),
         ticket:request.input('ticket'),
         seller:request.input('seller'),
-        products:request.input('products')
+        products:request.input('products'),
+        order:request.input('order')
       })
 
       return response.json({
@@ -95,6 +98,28 @@ class SaleController {
       staus:'success',
       data: null
     })
+  }
+
+  async range ({ params, request, response }){
+    try {
+      console.log(params);
+      const start = new Date(moment(params.start, 'YYYY-MM-DD', false).format())
+      const end = new Date(moment(params.end, 'YYYY-MM-DD', false).format())
+      console.log(start);
+      const sales = await Database.table('sales').whereBetween('created_at', [start, end])
+      let ventas = sales.map(el=>{
+        let elemento = el
+        let ya = elemento.products.replace(/\\/gi, '')
+        elemento.products = JSON.parse(ya)
+        return elemento
+      })
+      return response.status(200).json({
+        staus:'success',
+        data: ventas
+      })
+    } catch (error) {
+      
+    }
   }
 }
 

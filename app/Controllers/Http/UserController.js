@@ -14,7 +14,7 @@ class UserController {
   async index ({ request, response, view, auth }) {
     const user = await auth.getUser()
 
-    const users = await User.query().where('company_id', user.company_id).fetch()
+    const users = await User.query().where('company_id', user.company_id).with('role').fetch()
 
     return response.json({
       status: 'succes',
