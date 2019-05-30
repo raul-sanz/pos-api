@@ -25,9 +25,9 @@ class UserController {
 
   async store ({ request, response }) {
     try {
-      const user = await User.create({
+      const usr = await User.create({
         email:request.input('email'),
-        username:request.input('username'),
+        username:`${request.input('username')}_${Date.now()}`,
         password:request.input('password'),
         role_id:request.input('role_id'),
         first_name:request.input('first_name'),
@@ -38,6 +38,7 @@ class UserController {
         company_id:request.input('company_id')
       })
 
+      const user = await User.query().where('id', usr.id).with('role').fetch()
       return response.json({
         status: 'success',
         data: user
@@ -82,10 +83,11 @@ class UserController {
     user.address = request.input('address')
 
     await user.save()
+    const usr = await User.query().where('id', user.id).with('role').fetch()
 
     return response.status(201).json({
       status: 'success',
-      data: user
+      data: usr
     })
   }
 

@@ -12,7 +12,7 @@ class AuthController {
         request.input('password')
       )
 
-      let user = await User.query().where('email', email).with('company').fetch()
+      let user = await User.query().where('email', email).with('company').with('role').fetch()
       return response.json({
         status: 'success',
         token,
@@ -38,7 +38,7 @@ class AuthController {
 
       const user = await User.create({
         email:request.input('email'),
-        username:`${request.input('first_name')}${request.input('last_name')}`,
+        username:`${request.input('first_name')}${request.input('last_name')}_${Date.now()}`,
         password:request.input('password'),
         role_id:1,
         first_name:request.input('first_name'),
