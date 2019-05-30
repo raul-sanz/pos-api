@@ -21,7 +21,8 @@ Route.get('/', () => {
 
 Route.post('/login', 'AuthController.login')
 Route.post('/register', 'AuthController.register')
-Route.get('/range/:start/:end', 'SaleController.range')
+Route.get('/range/:start/:end', 'SaleController.range').middleware(['auth:jwt'])
+Route.get('/filtro/:string', 'ProductController.filtro').middleware(['auth:jwt'])
 Route.resource('categories', 'CategoryController').middleware(['auth:jwt'])
 Route.resource('products', 'ProductController').middleware(['auth:jwt'])
 Route.resource('users', 'UserController').middleware(['auth:jwt'])

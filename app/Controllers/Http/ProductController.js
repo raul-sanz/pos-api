@@ -8,9 +8,32 @@
  * Resourceful controller for interacting with products
  */
 const Product = use('App/Models/Product')
+const Database = use('Database')
 
 class ProductController {
   
+  async index ({ request, response, view, auth }) {
+
+    const user = await auth.getUser()
+
+    const products = await Product.query().where('company_id', user.company_id).fetch()
+
+    return response.json({
+      status: 'succes',
+      data: products
+    })
+  }
+
+  async filtro ({ request, response, params, auth }) {
+    const user = await auth.getUser()
+    console.log(params.string);
+    const products = await Database.raw(`SELECT * FROM Products WHERE company_id = ${user.company_id} AND name LIKE '%${params.string}%';`)
+
+    return response.json({
+      status: 'succes',
+      data: products[0]
+    })
+  }
   async index ({ request, response, view, auth }) {
 
     const user = await auth.getUser()
