@@ -100,13 +100,15 @@ class SaleController {
     })
   }
 
-  async range ({ params, request, response }){
+  async range ({ params, request, response,auth }){
     try {
+      const user = await auth.getUser()
       console.log(params);
       const start = new Date(moment(params.start, 'YYYY-MM-DD', false).format())
       const end = new Date(moment(params.end, 'YYYY-MM-DD', false).format())
       console.log(start);
-      const sales = await Database.table('sales').whereBetween('created_at', [start, end])
+      console.log(user);
+      const sales = await Database.table('sales').where('company_id',user.company_id).whereBetween('created_at', [start, end])
       let ventas = sales.map(el=>{
         let elemento = el
         let ya = elemento.products.replace(/\\/gi, '')
