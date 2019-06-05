@@ -21,6 +21,7 @@ class SaleController {
   async store ({ request, response }) {
     
     try {
+      //const pros = request.input('products')
       
       const sale = await Sale.create({
         company_id:request.input('company_id'),
@@ -29,7 +30,7 @@ class SaleController {
         total:request.input('total'),
         ticket:request.input('ticket'),
         seller:request.input('seller'),
-        products:request.input('products'),
+        products:JSON.stringify(request.input('products')),
         order:request.input('order')
       })
 
@@ -103,11 +104,8 @@ class SaleController {
   async range ({ params, request, response,auth }){
     try {
       const user = await auth.getUser()
-      console.log(params);
       const start = new Date(moment(params.start, 'YYYY-MM-DD', false).format())
-      const end = new Date(moment(params.end, 'YYYY-MM-DD', false).format())
-      console.log(start);
-      console.log(user);
+      const end = new Date(moment(params.end).add(1, 'days')/*moment(params.end, 'YYYY-MM-DD', false).format()*/)
       const sales = await Database.table('sales').where('company_id',user.company_id).whereBetween('created_at', [start, end])
       let ventas = sales.map(el=>{
         let elemento = el

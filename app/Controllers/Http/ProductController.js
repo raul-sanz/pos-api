@@ -33,7 +33,7 @@ class ProductController {
       status: 'succes',
       data: products[0]
     })
-  }
+  }/* 
   async index ({ request, response, view, auth }) {
 
     const user = await auth.getUser()
@@ -44,7 +44,7 @@ class ProductController {
       status: 'succes',
       data: products
     })
-  }
+  } */
 
 
   async store ({ request, response }) {

@@ -15,6 +15,10 @@ class Company extends Model {
   sale () {
     return this.hasMany('App/Models/Sale')
   }
+
+  provider () {
+    return this.hasMany('App/Models/Provider')
+  }
 }
 
 module.exports = Company
