@@ -7,6 +7,8 @@ This is the boilerplate for creating an API server in AdonisJs, it comes pre-con
 3. CORS
 4. Lucid ORM
 5. Migrations and seeds
+### FRONTEND for this project: SPA with Vue and Quasar Framework 
+https://github.com/raul-sanz/pos-app
 
 ## Setup
 
